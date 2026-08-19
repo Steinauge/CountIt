@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="CountIt.Core/CountIt.Core.csproj" />
+  <Project Path="CountIt.Tests/CountIt.Tests.csproj" />
   <Project Path="CountIt.WPF/CountIt.WPF.csproj" />
 </Solution>
