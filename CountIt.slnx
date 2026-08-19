@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="CountIt.Core/CountIt.Core.csproj" />
+  <Project Path="CountIt.Maui/CountIt.Maui.csproj" Id="73f421c3-5629-4ceb-98be-b4aa382a1e6e" />
   <Project Path="CountIt.Tests/CountIt.Tests.csproj" />
   <Project Path="CountIt.WPF/CountIt.WPF.csproj" />
 </Solution>

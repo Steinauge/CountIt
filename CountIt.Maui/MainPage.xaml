@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CountIt.Core.ViewModels;assembly=CountIt.Core"
+             x:Class="CountIt.Maui.MainPage"
+             x:DataType="vm:MainViewModel"
+             BackgroundColor="#1E1E1E">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="15">
+
+        <!-- Header: Titel & Hauptbefehle -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Margin="0,0,0,15">
+            <Label Text="CountIt" 
+                   Margin="0,0,20,0" 
+                   FontSize="22" 
+                   FontAttributes="Bold" 
+                   TextColor="#00FF7F" 
+                   VerticalOptions="Center"/>
+
+            <FlexLayout Grid.Column="1" HorizontalOptions="End" Wrap="Wrap" JustifyContent="End">
+                <Button Text="📂 Laden" 
+                        Command="{Binding LoadFromFileCommand}" 
+                        Padding="8,5" BackgroundColor="#2D2D2D" TextColor="White" Margin="0,0,8,0" HeightRequest="38"/>
+                <Button Text="💾 Speichern" 
+                        Command="{Binding SaveToFileCommand}" 
+                        Padding="8,5" BackgroundColor="#2D2D2D" TextColor="White" Margin="0,0,8,0" HeightRequest="38"/>
+                <Button Text="+ Neuer Abschnitt" 
+                        Command="{Binding AddSectionCommand}" 
+                        Padding="10,5" BackgroundColor="#2D2D2D" TextColor="White" BorderWidth="1" BorderColor="#00FF7F" FontAttributes="Bold" HeightRequest="38"/>
+            </FlexLayout>
+        </Grid>
+
+        <!-- Liste der Abschnitte -->
+        <ScrollView Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Sections}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:SectionViewModel">
+                        <!-- Kasten für einen Abschnitt -->
+                        <Border BackgroundColor="#252525" 
+                                Stroke="#333333" 
+                                StrokeThickness="1" 
+                                Margin="0,0,0,20">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+
+                            <StackLayout Padding="15">
+                                <!-- Abschnitt-Header -->
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                                    <Entry Text="{Binding Name}" 
+                                           FontSize="16" FontAttributes="Bold" TextColor="#00FF7F" 
+                                           BackgroundColor="Transparent"
+                                           MinimumWidthRequest="150" VerticalOptions="Center"/>
+
+                                    <Button Grid.Column="1" Text="Löschen 🗑" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=RemoveSectionCommand}" 
+                                            CommandParameter="{Binding}"
+                                            BackgroundColor="#550000" TextColor="White" Padding="8,4" HeightRequest="35"/>
+                                </Grid>
+
+                                <!-- Button: Neuer Zähler im Abschnitt -->
+                                <Button Text="+ Zähler hinzufügen" 
+                                        Command="{Binding AddCounterCommand}" 
+                                        BackgroundColor="#333333" TextColor="#00FF7F" BorderWidth="1" BorderColor="#00FF7F"
+                                        Padding="8,4" Margin="0,0,0,10" HorizontalOptions="Start" HeightRequest="35"/>
+
+                                <!-- Liste der Zähler im Abschnitt -->
+                                <CollectionView ItemsSource="{Binding Items}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CounterItemViewModel">
+                                            <Border BackgroundColor="#333333" Margin="0,0,0,8" StrokeThickness="0">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="5"/>
+                                                </Border.StrokeShape>
+
+                                                <Grid ColumnDefinitions="*,Auto,Auto,Auto" Padding="10">
+
+                                                    <!-- Name, Sound & Lautstärke -->
+                                                    <StackLayout Grid.Column="0">
+                                                        <Entry Text="{Binding Name}" 
+                                                               FontSize="14" FontAttributes="Bold"
+                                                               TextColor="White" BackgroundColor="Transparent" Margin="0,0,10,4"/>
+
+                                                        <HorizontalStackLayout Spacing="5" Margin="0,2,0,0">
+                                                            <!-- Sound Buttons -->
+                                                            <Button Text="🎵" Command="{Binding SelectSoundCommand}" BackgroundColor="#222222" TextColor="White" Padding="5,1" HeightRequest="30" WidthRequest="35"/>
+                                                            <Button Text="✕" Command="{Binding ClearSoundCommand}" BackgroundColor="#222222" TextColor="#AAAAAA" Padding="5,1" HeightRequest="30" WidthRequest="35"/>
+
+                                                            <!-- Lautstärke-Slider -->
+                                                            <Label Text="🔊" TextColor="#AAAAAA" VerticalOptions="Center" Margin="5,0,0,0" FontSize="11"/>
+                                                            <Slider Value="{Binding Volume}" 
+                                                                    Minimum="0.0" Maximum="1.0" 
+                                                                    WidthRequest="80" VerticalOptions="Center"/>
+                                                        </HorizontalStackLayout>
+                                                    </StackLayout>
+
+                                                    <!-- Punktestände -->
+                                                    <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0">
+                                                        <Label Text="{Binding Points}" FontSize="22" FontAttributes="Bold" TextColor="#00FF7F" HorizontalOptions="Center"/>
+                                                        <Label Text="{Binding SectionDelta, StringFormat='({0:+0;-0;0})'}" 
+                                                               FontSize="11" TextColor="#AAAAAA" HorizontalOptions="Center"/>
+                                                    </StackLayout>
+
+                                                    <!-- Steuerung (+ / -) -->
+                                                    <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="4" Margin="0,0,12,0">
+                                                        <Button Text="-" Command="{Binding DecrementCommand}" WidthRequest="35" HeightRequest="35" BackgroundColor="#444444" TextColor="White" FontAttributes="Bold"/>
+                                                        <Button Text="+" Command="{Binding IncrementCommand}" WidthRequest="35" HeightRequest="35" BackgroundColor="#444444" TextColor="White" FontAttributes="Bold"/>
+                                                    </HorizontalStackLayout>
+
+                                                    <!-- Einzelnen Zähler löschen -->
+                                                    <Button Grid.Column="3" Text="🗑" 
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SectionViewModel}}, Path=RemoveCounterCommand}" 
+                                                            CommandParameter="{Binding}"
+                                                            WidthRequest="35" HeightRequest="35" BackgroundColor="#8B0000" TextColor="White" VerticalOptions="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <!-- Statusleiste -->
+        <Label Grid.Row="2" 
+               Text="Touch-Bedienung optimiert für Android &amp; Windows" 
+               TextColor="#888888" FontSize="11" Margin="0,10,0,0" HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>

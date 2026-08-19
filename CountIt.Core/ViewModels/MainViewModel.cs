@@ -31,7 +31,6 @@ public partial class MainViewModel : ObservableObject
             Name = $"Abschnitt {Sections.Count + 1}"
         };
 
-        // Falls es einen vorherigen Abschnitt gibt:
         if (Sections.LastOrDefault() is SectionViewModel lastSection)
         {
             foreach (var oldItem in lastSection.Items)
@@ -39,20 +38,21 @@ public partial class MainViewModel : ObservableObject
                 newSectionModel.Items.Add(new CounterItem
                 {
                     Name = oldItem.Name,
-                    Points = oldItem.Points, // Punktestand übernehmen
-                    IncrementHotkey = oldItem.IncrementHotkey, // Hotkey an den neuen Abschnitt übergeben
+                    Points = oldItem.Points,         // Gesamtpunktestand übernehmen
+                    SectionDelta = 0,                // <-- Startet im neuen Abschnitt IMMER bei 0!
+                    IncrementHotkey = oldItem.IncrementHotkey,
                     DecrementHotkey = oldItem.DecrementHotkey,
-                    SoundPath = oldItem.SoundPath
+                    SoundPath = oldItem.SoundPath,
+                    Volume = oldItem.Volume
                 });
 
-                // WICHTIG: Hotkeys beim alten Abschnitt löschen, damit sie exklusiv im neuen liegen!
                 oldItem.IncrementHotkey = null;
                 oldItem.DecrementHotkey = null;
             }
         }
         else
         {
-            newSectionModel.Items.Add(new CounterItem { Name = "Zähler 1", Points = 0 });
+            newSectionModel.Items.Add(new CounterItem { Name = "Zähler 1", Points = 0, SectionDelta = 0 });
         }
 
         var newSectionVm = new SectionViewModel(newSectionModel, _soundService);

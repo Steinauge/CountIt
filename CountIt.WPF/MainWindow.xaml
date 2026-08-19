@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header: Titel & Hauptbefehle -->
+        <!-- Header: Titel (mit angepasstем Abstand) & Hauptbefehle -->
         <DockPanel Grid.Row="0" Margin="0,0,0,15">
             <TextBlock Text="CountIt" Margin="0,0,20,0" FontSize="22" FontWeight="Bold" Foreground="#00FF7F" VerticalAlignment="Center"/>
 
@@ -95,8 +95,13 @@
                                                         </WrapPanel>
                                                     </StackPanel>
 
-                                                    <!-- Punktestand -->
-                                                    <TextBlock Grid.Column="1" Text="{Binding Points}" FontSize="22" FontWeight="Bold" Foreground="#00FF7F" VerticalAlignment="Center" Margin="15,0"/>
+                                                    <!-- Punktestände: Gesamtzähler + kleiner Abschnittszähler -->
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="15,0">
+                                                        <TextBlock Text="{Binding Points}" FontSize="22" FontWeight="Bold" Foreground="#00FF7F" HorizontalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding SectionDelta, StringFormat='({0:+0;-0;0})'}" 
+                                                                   FontSize="11" Foreground="#AAA" HorizontalAlignment="Center"
+                                                                   ToolTip="Änderung in diesem Abschnitt"/>
+                                                    </StackPanel>
 
                                                     <!-- Steuerung (+ / -) -->
                                                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">

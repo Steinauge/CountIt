@@ -13,6 +13,7 @@ public partial class CounterItemViewModel : ObservableObject
 
     [ObservableProperty] private string _name;
     [ObservableProperty] private int _points;
+    [ObservableProperty] private int _sectionDelta;
     [ObservableProperty] private string? _incrementHotkey;
     [ObservableProperty] private string? _decrementHotkey;
     [ObservableProperty] private string? _soundPath;
@@ -28,6 +29,7 @@ public partial class CounterItemViewModel : ObservableObject
 
         _name = model.Name;
         _points = model.Points;
+        _sectionDelta = model.SectionDelta;
         _incrementHotkey = model.IncrementHotkey;
         _decrementHotkey = model.DecrementHotkey;
         _soundPath = model.SoundPath;
@@ -38,7 +40,9 @@ public partial class CounterItemViewModel : ObservableObject
     public void Increment()
     {
         Points++;
+        SectionDelta++;
         Model.Points = Points;
+        Model.SectionDelta = SectionDelta;
         _soundService.Play(SoundPath, Volume);
     }
 
@@ -46,7 +50,9 @@ public partial class CounterItemViewModel : ObservableObject
     public void Decrement()
     {
         Points--;
+        SectionDelta--;
         Model.Points = Points;
+        Model.SectionDelta = SectionDelta;
     }
 
     [RelayCommand]
