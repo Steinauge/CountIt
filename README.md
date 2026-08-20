@@ -28,3 +28,35 @@ CountIt/
 ├── CountIt.Core/          # Geschäftslogik, Models, ViewModels & Interfaces (Plattformunabhängig)
 ├── CountIt.WPF/           # Windows Desktop-UI (WPF, Hotkeys, SoundPlayer)
 └── CountIt.Maui/          # Cross-Platform UI für Android & Windows (.NET MAUI)
+
+🚀 Erste Schritte
+Voraussetzungen
+Visual Studio 2022 (v17.8 oder neuer)
+
+.NET 8.0 SDK
+
+Für Android-Builds: Workload .NET MAUI in Visual Studio installiert.
+
+Installation & Start
+Repository klonen:
+
+Bash
+git clone [https://github.com/DEIN-BENUTZERNAME/CountIt.git](https://github.com/DEIN-BENUTZERNAME/CountIt.git)
+cd CountIt
+Projektmappe in Visual Studio öffnen (CountIt.sln).
+
+Startprojekt wählen:
+
+WPF (Desktop): Setze CountIt.WPF als Startprojekt und drücke F5.
+
+MAUI (Android/Windows): Setze CountIt.Maui als Startprojekt, wähle das Zielgerät (Windows Machine oder Android Emulator) und starte die App.
+
+🛠 Verwendete Technologien & NuGets
+CommunityToolkit.Mvvm: Für sauberes MVVM Binding, Commands und Source Generators.
+
+Plugin.Maui.Audio: Plattformübergreifende Audio-Wiedergabe unter .NET MAUI.
+
+System.Text.Json: Schnelle und native JSON-Serialisierung.
+
+📄 Lizenz
+Dieses Projekt steht unter der MIT-Lizenz.
